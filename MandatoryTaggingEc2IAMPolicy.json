@@ -1,0 +1,62 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllEc2actions",
+            "Effect": "Allow",
+            "Action": "ec2:*",
+            "Resource": "*"
+        },
+        {
+            "Sid": "DenyIfProjectTagIsAbsent",
+            "Effect": "Deny",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:CreateVolume"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*",
+                "arn:aws:ec2:*:*:volume/*"
+            ],
+            "Condition": {
+                "Null": {
+                    "aws:RequestTag/project": "true"
+                }
+            }
+        },
+        {
+            "Sid": "DenyIfOwnerTagIsAbsent",
+            "Effect": "Deny",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:CreateVolume"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*",
+                "arn:aws:ec2:*:*:volume/*"
+            ],
+            "Condition": {
+                "Null": {
+                    "aws:RequestTag/owner": "true"
+                }
+            }
+        },
+        {
+            "Sid": "DenyIfAccountTagIsAbsent",
+            "Effect": "Deny",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:CreateVolume"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*",
+                "arn:aws:ec2:*:*:volume/*"
+            ],
+            "Condition": {
+                "Null": {
+                    "aws:RequestTag/account": "true"
+                }
+            }
+        }
+    ]
+}
